@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.zsb</groupId>
+    <artifactId>chapter1</artifactId>
+    <version>1.0.0</version>
+    <!--把项目资源文件打成war包-->
+    <packaging>war</packaging>
+    <!--以上为基本配置-->
+
+    <!--下面进入常用配置-->
+    <!--常用配置1，统一源代码的编码方式，否则使用maven编译源码source时
+    会出现警告，所以一般情况下使用UTF-8进行编码，properties是声明一下变量或常量-->
+    <properties>
+        <!--变量名project.build.sourceEncoding：值UTF-8,全局环境都可以使用该变量-->
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
+
+    <!--添加javaweb的maven依赖: 引用外部的编程模型，在别人的编程模型下编程，也就是一些jar，lib库-->
+    <dependencies>
+        <!--servlet依赖的编程模型，就是引用servlet相关的jar，jar中的class文件-->
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId>
+            <version>3.1.0</version>
+        </dependency>
+
+        <!--JSP-->
+        <dependency>
+            <groupId>javax.servlet.jsp</groupId>
+            <artifactId>jsp-api</artifactId>
+            <version>2.2</version>
+        </dependency>
+
+        <!--JSTL-->
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>jstl</artifactId>
+            <version>1.2</version>
+            <scope>runtime</scope>
+        </dependency>
+
+        <!--两年内一定要弄懂的东西。关于scope的使用技巧，有些jar、lib依赖，只需要在runtime运行时之下的需要的，但不需要参与编译
+        （例如，一些JDBC的驱动、JSTL的jar包，可将我的scope设置为runtime）-->
+    </dependencies>
+
+    <!--build-->
+    <build>
+        <!--plugins里都是针对maven的插件-->
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <!--没有编译就不能使用-->
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.3</version>
+
+                <configuration>
+                <!--源代码source的JAVA版本-->
+                    <source>1.8</source>
+                    <target>1.8</target>
+                </configuration>
+            </plugin>
+
+            <!--Test,跳过测试的插件-->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>2.18.1</version>
+                <configuration>
+                    <skipTests>true</skipTests>
+                </configuration>
+            </plugin>
+            <!--tomcat-->
+            <plugin>
+                <groupId>org.apache.tomcat.maven</groupId>
+                <artifactId>tomcat7-maven-plugin</artifactId>
+                <version>2.2</version>
+                <configuration>
+                    <!--取系统变量的值，系统变量不需要自己声明，project对象下有很多的属性-->
+                    <path>/${project.artifactId}</path>
+                </configuration>
+            </plugin>
+
+        </plugins>
+
+    </build>
+
+
+
+</project>
